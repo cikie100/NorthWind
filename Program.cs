@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace Northwind
 {
@@ -34,18 +35,28 @@ namespace Northwind
             {
                 try
                 {
-                    SqlCommand comm = new SqlCommand("SELECT CategoryID, CategoryName FROM Categories;", con);
+                    SqlCommand comm = new SqlCommand(quer, con);
                         con.Open();
 
                     SqlDataReader reader = comm.ExecuteReader();
-                    List<string> str = new List<string>();
-                    int i = 0;
-                    while (reader.Read())
-                    {
-                        str.Add(reader.GetValue(0).ToString());
-                    }
+
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                comm.ExecuteNonQuery();
+                                DataTable x = new DataTable();
+                               
+
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Geen (records) gevonden.");
+                        }
                     reader.Close();
                 }
+
                 catch (Exception)
                 {
                     throw;
